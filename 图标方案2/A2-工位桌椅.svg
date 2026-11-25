@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="办公桌和显示器">
+  <title>工位桌椅</title>
+  <defs>
+    <linearGradient id="a2bg" x1="0" y1="0" x2=".55" y2="1">
+      <stop offset="0" stop-color="#3C4876"/>
+      <stop offset="1" stop-color="#151A2B"/>
+    </linearGradient>
+    <linearGradient id="a2dsk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A6C6EE"/>
+      <stop offset="1" stop-color="#7BA1D8"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="122" height="122" rx="28" fill="url(#a2bg)"/>
+  <rect x="3.75" y="3.75" width="120.5" height="120.5" rx="27.25" fill="none" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/>
+  <rect x="42" y="20" width="44" height="32" rx="5" fill="#1E2740"/>
+  <rect x="48" y="26" width="20" height="5" rx="2.5" fill="#FF4E86"/>
+  <rect x="48" y="36" width="30" height="4" rx="2" fill="#FFFFFF" opacity=".35"/>
+  <rect x="48" y="44" width="22" height="4" rx="2" fill="#FFFFFF" opacity=".22"/>
+  <rect x="60" y="52" width="8" height="12" fill="#C6D5EE"/>
+  <rect x="50" y="62" width="28" height="5" rx="2.5" fill="#D5E0F6"/>
+  <rect x="14" y="66" width="100" height="11" rx="5.5" fill="url(#a2dsk)"/>
+  <rect x="14" y="66" width="100" height="4" rx="2" fill="#FFFFFF" opacity=".28"/>
+  <rect x="22" y="77" width="9" height="27" rx="4.5" fill="#5D85C0"/>
+  <rect x="97" y="77" width="9" height="27" rx="4.5" fill="#5D85C0"/>
+  <path d="M90 54h11v7.5a5.5 5.5 0 0 1-11 0z" fill="#FFC24B"/>
+  <path d="M102 56.5h2.6a3.6 3.6 0 0 1 0 7.2h-2.6" fill="none" stroke="#FFC24B" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M90 57.5h11" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="2"/>
+</svg>

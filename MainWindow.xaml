@@ -1,0 +1,333 @@
+<Window x:Class="WorkstationStudio.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:WorkstationStudio"
+        Title="卓格" Height="880" Width="1420"
+        Icon="app.ico"
+        MinHeight="620" MinWidth="1020"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BgDeep}"
+        Foreground="{StaticResource TextMain}"
+        FontFamily="Microsoft YaHei, Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部工具栏 -->
+        <Border Grid.Row="0" Background="{StaticResource BgPanel}" BorderBrush="{StaticResource LineBrush}"
+                BorderThickness="0,0,0,1" Padding="12,9">
+            <DockPanel>
+                <!-- 右上：存档（两段式确认） + 搜索 -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                    <Button x:Name="btnSave" Content="{l:T Key='存档 ▾'}" Style="{StaticResource ToolBtn}" Click="BtnSave_Click"
+                            Margin="0,0,10,0" ToolTip="{l:T Key='保存存档（覆盖，需确认）/ 读取存档'}"/>
+                    <Grid Width="192">
+                        <TextBox x:Name="txtSearch" Height="30" Style="{StaticResource DarkBox}"
+                                 TextChanged="TxtSearch_TextChanged" KeyDown="TxtSearch_KeyDown"
+                                 ToolTip="{l:T Key='搜人名 / 主机型号 / 工号 / IP / MAC，回车跳下一个命中'}"/>
+                        <TextBlock x:Name="searchHint" Text="{l:T Key='搜人名/型号/工号/IP/MAC'}" FontSize="11.5"
+                                   Foreground="#5A6572" IsHitTestVisible="False"
+                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
+                        <Popup x:Name="searchPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=txtSearch}"
+                               StaysOpen="False" AllowsTransparency="True" PopupAnimation="Fade"
+                               HorizontalOffset="-150" VerticalOffset="5" Width="360">
+                            <Border Background="#1B2028" BorderBrush="#3FA7D6" BorderThickness="1"
+                                    CornerRadius="8" Padding="5">
+                                <StackPanel>
+                                    <TextBlock x:Name="searchPopHint" Text="" FontSize="10.5"
+                                               Foreground="#8FA0B2" Margin="7,3,0,6"/>
+                                    <ScrollViewer MaxHeight="250" VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled">
+                                        <StackPanel x:Name="searchResultsHost"/>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <Button x:Name="btnSearch" Content="{l:T Key='搜索'}" Style="{StaticResource ToolBtn}" Click="BtnSearch_Click" Margin="6,0,0,0"/>
+                    <Button x:Name="btnSearchClear" Content="{l:T Key='清空'}" Style="{StaticResource ToolBtn}" Click="BtnSearchClear_Click" Margin="0"/>
+                    <Button x:Name="btnLang" Content="{l:T Key='语言 ▾'}" Style="{StaticResource ToolBtn}" Click="BtnLang_Click"
+                            Margin="8,0,0,0" ToolTip="{l:T Key='切换界面语言'}"/>
+                    <Button x:Name="btnAbout" Content="{l:T Key='关于'}" Style="{StaticResource ToolBtn}" Click="BtnAbout_Click"
+                            Margin="8,0,0,0" ToolTip="{l:T Key='卓格 · 版本、版权与使用条款'}"/>
+                </StackPanel>
+
+                <!-- 横向不出滚动条：滚轮在工具栏上滚就是左右移动（HScroll_Wheel） -->
+                <ScrollViewer x:Name="toolbarScroll" HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Disabled"
+                              PreviewMouseWheel="HScroll_Wheel">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{l:T Key='卓格'}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="Zogrid" FontSize="10.5" Foreground="#5A6572"
+                                   VerticalAlignment="Center" Margin="6,0,16,0"/>
+                        <Button x:Name="btnData" Content="{l:T Key='数据 ▾'}" Style="{StaticResource ToolBtn}" Click="BtnData_Click"
+                                ToolTip="{l:T Key='下载空白模板 / 导入表格 / 把表格数据同步到工位'}"/>
+                        <Border Width="1" Background="{StaticResource LineBrush}" Margin="4,0,12,0"/>
+                        <ToggleButton x:Name="btnLibPane" Content="{l:T Key='工位库 F1'}" Style="{StaticResource ToolToggle}"
+                                      Click="BtnLibPane_Click" ToolTip="{l:T Key='F1 显示/隐藏左侧工位库'}"/>
+                        <ToggleButton x:Name="btnRoomPane" Content="{l:T Key='房间属性 F2'}" Style="{StaticResource ToolToggle}"
+                                      Click="BtnRoomPane_Click" ToolTip="{l:T Key='F2 弹出房间属性（房间名单、锁、格子大小、地板/格线色）'}"/>
+                        <ToggleButton x:Name="btnStatsToggle" Content="{l:T Key='机器统计 F3'}" Style="{StaticResource ToolToggle}" IsChecked="True"
+                                      Click="BtnStatsToggle_Click" ToolTip="{l:T Key='F3 显示/隐藏底部的机器统计面板（机型颜色只在这里改）'}"/>
+                        <ToggleButton x:Name="btnCellPane" Content="{l:T Key='工位详情 F4'}" Style="{StaticResource ToolToggle}"
+                                      Click="BtnCellPane_Click" ToolTip="{l:T Key='F4 弹出选中工位的人名、机型、IP/MAC 详情'}"/>
+                        <Border Width="1" Background="{StaticResource LineBrush}" Margin="4,0,12,0"/>
+                        <Button x:Name="btnCenter" Content="{l:T Key='居中 F5'}" Style="{StaticResource ToolBtn}" Click="BtnCenter_Click"
+                                ToolTip="{l:T Key='整块地板 100% 看全并居中'}"/>
+                        <Button x:Name="btnZoomOut" Content="－" Style="{StaticResource ToolBtn}" Click="BtnZoomOut_Click" Width="30" Padding="0"/>
+                        <Button x:Name="btnZoomReset" Content="100%" Style="{StaticResource ToolBtn}" Click="BtnZoomReset_Click" Width="54" Padding="0"/>
+                        <Button x:Name="btnZoomIn" Content="＋" Style="{StaticResource ToolBtn}" Click="BtnZoomIn_Click" Width="30" Padding="0"/>
+                        <Border Width="1" Background="{StaticResource LineBrush}" Margin="4,0,12,0"/>
+                        <Button x:Name="btnTheme" Content="{l:T Key='配色 ▾'}" Style="{StaticResource ToolBtn}" Click="BtnTheme_Click"
+                                ToolTip="{l:T Key='6 套护眼配色：地板、格线、工位格一起换'}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <!-- 语言菜单：切换界面语言（切换后自动保存并重新打开） -->
+        <Popup x:Name="popLang" Grid.RowSpan="4" Placement="Bottom"
+               PlacementTarget="{Binding ElementName=btnLang}"
+               StaysOpen="False" AllowsTransparency="True" PopupAnimation="Fade"
+               HorizontalOffset="-92" VerticalOffset="5">
+            <Border Background="#1B2028" BorderBrush="#3A4553" BorderThickness="1"
+                    CornerRadius="8" Padding="5" Width="196">
+                <StackPanel x:Name="langHost"/>
+            </Border>
+        </Popup>
+
+        <!-- 数据菜单：模板 / 导入 / 同步 -->
+        <Popup x:Name="popData" Grid.RowSpan="4" Placement="Bottom"
+               PlacementTarget="{Binding ElementName=btnData}"
+               StaysOpen="False" AllowsTransparency="True" PopupAnimation="Fade"
+               HorizontalOffset="-4" VerticalOffset="5">
+            <Border Background="#1B2028" BorderBrush="#3A4553" BorderThickness="1"
+                    CornerRadius="8" Padding="5" Width="248">
+                <StackPanel>
+                    <Button Content="{l:T Key='下载空白模板…'}" Style="{StaticResource MenuBtn}" Click="MenuTemplate_Click"/>
+                    <Button Content="{l:T Key='导入表格…'}" Style="{StaticResource MenuBtn}" Click="MenuImport_Click"/>
+                    <Border Height="1" Background="#2A323D" Margin="8,4"/>
+                    <Button Content="{l:T Key='同步到工位'}" Style="{StaticResource MenuBtn}" Click="MenuSync_Click"/>
+                    <Button Content="{l:T Key='导出人员表…'}" Style="{StaticResource MenuBtn}" Click="MenuExportPeople_Click"/>
+                    <TextBlock Text="{l:T Key='新建房间只填人名就可以，其余数据从填好的模板来'}"
+                               FontSize="10.5" Foreground="#6B7887" TextWrapping="Wrap" LineHeight="16"
+                               Margin="11,6,8,4"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <!-- 存档菜单：保存 / 读取 -->
+        <Popup x:Name="popSave" Grid.RowSpan="4" Placement="Bottom"
+               PlacementTarget="{Binding ElementName=btnSave}"
+               StaysOpen="False" AllowsTransparency="True" PopupAnimation="Fade"
+               HorizontalOffset="-56" VerticalOffset="5">
+            <Border Background="#1B2028" BorderBrush="#3A4553" BorderThickness="1"
+                    CornerRadius="8" Padding="5" Width="232">
+                <StackPanel>
+                    <Button x:Name="menuSaveItem" Content="{l:T Key='保存当前存档（覆盖）'}" Style="{StaticResource MenuBtn}"
+                            Click="MenuSave_Click"/>
+                    <Border Height="1" Background="#2A323D" Margin="8,4"/>
+                    <Button Content="{l:T Key='读取存档…'}" Style="{StaticResource MenuBtn}" Click="MenuLoad_Click"/>
+                    <Border Height="1" Background="#2A323D" Margin="8,4"/>
+                    <Button Content="{l:T Key='导入程序目录的旧存档…'}" Style="{StaticResource MenuBtn}" Click="MenuImportLegacy_Click"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <!-- 主体：工位库 + 房间画布 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="colLib" Width="0"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左: 工位库（默认收起，F1 打开） -->
+            <Border Grid.Column="0" Background="{StaticResource BgPanel}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,1,0">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{l:T Key='工位库'}" FontSize="15" FontWeight="Bold" Margin="14,13,0,4"/>
+                    <TextBlock DockPanel.Dock="Top" Text="{l:T Key='拖动条目到房间放置；上下拖动可调整顺序'}" FontSize="11"
+                               Foreground="{StaticResource TextSub}" Margin="14,0,12,8" TextWrapping="Wrap"/>
+
+                    <!-- 设计工位块：贴底，把上面的空间让给工位库 -->
+                    <Border DockPanel.Dock="Bottom" Background="#191F27" BorderBrush="{StaticResource LineBrush}"
+                            BorderThickness="0,1,0,0">
+                        <ScrollViewer MaxHeight="330" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="12,10,12,12">
+                                <TextBlock Text="{l:T Key='设计工位块'}" FontSize="13" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                                <TextBlock Text="{l:T Key='名称'}" FontSize="11" Foreground="{StaticResource TextSub}" Margin="0,0,0,2"/>
+                                <TextBox x:Name="txtLibName" Style="{StaticResource DarkBox}" Text="{l:T Key='双人工位'}" Margin="0,0,0,7"/>
+
+                                <TextBlock Text="{l:T Key='排 × 列 （一个格子=一个工位）'}" FontSize="11" Foreground="{StaticResource TextSub}" Margin="0,0,0,2"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <TextBox x:Name="numLibRows" Style="{StaticResource DarkBox}" Width="46" Text="2"/>
+                                    <TextBlock Text="×" VerticalAlignment="Center" Margin="7,0" Foreground="{StaticResource TextSub}"/>
+                                    <TextBox x:Name="numLibCols" Style="{StaticResource DarkBox}" Width="46" Text="2"/>
+                                    <TextBlock Text="{l:T Key='排 / 列'}" VerticalAlignment="Center" Margin="7,0" FontSize="11" Foreground="{StaticResource TextSub}"/>
+                                </StackPanel>
+
+                                <CheckBox x:Name="chkLeader" Content="{l:T Key='带领导位'}" Foreground="#C9A227" Margin="0,0,0,6"
+                                          Click="ChkLeader_Click" ToolTip="{l:T Key='领导占两格，方向与位置可调'}"/>
+
+                                <StackPanel x:Name="leaderRow" Orientation="Horizontal" Margin="0,0,0,8" Visibility="Collapsed">
+                                    <StackPanel Width="112" Margin="0,0,8,0">
+                                        <TextBlock Text="{l:T Key='方向'}" FontSize="11" Foreground="{StaticResource TextSub}" Margin="0,0,0,2"/>
+                                        <Button x:Name="btnLeaderDir" Content="{l:T Key='竖'}" Height="28" Style="{StaticResource ToolBtn}"
+                                                Margin="0" Padding="0" Click="BtnLeaderDir_Click"
+                                                ToolTip="{l:T Key='点一下切换：竖（上下占两格）/ 横（左右占两格）'}"/>
+                                    </StackPanel>
+                                    <StackPanel Width="112">
+                                        <TextBlock Text="{l:T Key='位置'}" FontSize="11" Foreground="{StaticResource TextSub}" Margin="0,0,0,2"/>
+                                        <Button x:Name="btnLeaderPos" Content="{l:T Key='单独'}" Height="28" Style="{StaticResource ToolBtn}"
+                                                Margin="0" Padding="0" Click="BtnLeaderPos_Click"
+                                                ToolTip="{l:T Key='点一下切换：单独 / 左 / 右'}"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <TextBlock x:Name="libHint" Text="{l:T Key='2 排 × 2 列 · 4 个工位'}" FontSize="11"
+                                           Foreground="{StaticResource TextSub}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+
+                                <TextBlock Text="{l:T Key='颜色（工位块本身）'}" FontSize="11" Foreground="{StaticResource TextSub}" Margin="0,0,0,2"/>
+                                <ComboBox x:Name="libColor" Height="28" Margin="0,0,0,10" SelectedIndex="0">
+                                    <ComboBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="15" Height="15" Background="#6E93B8" CornerRadius="3" Margin="0,0,7,0"/>
+                                            <TextBlock Text="{l:T Key='雾蓝'}" Foreground="{StaticResource TextMain}"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="15" Height="15" Background="#6FA695" CornerRadius="3" Margin="0,0,7,0"/>
+                                            <TextBlock Text="{l:T Key='青瓷'}" Foreground="{StaticResource TextMain}"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="15" Height="15" Background="#9B8CB5" CornerRadius="3" Margin="0,0,7,0"/>
+                                            <TextBlock Text="{l:T Key='藕紫'}" Foreground="{StaticResource TextMain}"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="15" Height="15" Background="#B79A6E" CornerRadius="3" Margin="0,0,7,0"/>
+                                            <TextBlock Text="{l:T Key='砂金'}" Foreground="{StaticResource TextMain}"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="15" Height="15" Background="#B98A8A" CornerRadius="3" Margin="0,0,7,0"/>
+                                            <TextBlock Text="{l:T Key='陶粉'}" Foreground="{StaticResource TextMain}"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                    <ComboBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="15" Height="15" Background="#8CA37C" CornerRadius="3" Margin="0,0,7,0"/>
+                                            <TextBlock Text="{l:T Key='豆绿'}" Foreground="{StaticResource TextMain}"/>
+                                        </StackPanel>
+                                    </ComboBoxItem>
+                                </ComboBox>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="btnLibAdd" Content="{l:T Key='添加'}" Style="{StaticResource ToolBtn}" Click="BtnLibAdd_Click"/>
+                                    <Button x:Name="btnLibUpdate" Content="{l:T Key='更新'}" Style="{StaticResource ToolBtn}" Click="BtnLibUpdate_Click"/>
+                                    <Button x:Name="btnLibDel" Content="{l:T Key='删模板'}" Style="{StaticResource ToolBtn}" Click="BtnLibDel_Click" Margin="0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+
+                    <!-- 工位库列表：占满剩下的高度 -->
+                    <Grid Margin="12,0,12,8">
+                        <ListBox x:Name="libList" Background="#161B22"
+                                 Foreground="{StaticResource TextMain}" BorderBrush="{StaticResource LineBrush}"
+                                 SelectionChanged="LibList_SelectionChanged"
+                                 PreviewMouseLeftButtonDown="LibList_PreviewMouseLeftButtonDown"
+                                 PreviewMouseMove="LibList_PreviewMouseMove"
+                                 PreviewMouseLeftButtonUp="LibList_PreviewMouseLeftButtonUp">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#232A34" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                                            CornerRadius="5" Padding="8,6" Margin="0,0,0,5">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Background="#3E5C6B" CornerRadius="3" Padding="5,0" Margin="0,0,7,0">
+                                                    <TextBlock Text="{Binding No}" FontSize="11" FontWeight="Bold" Foreground="#E6EBF2"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}" Foreground="{StaticResource TextMain}" FontWeight="Bold"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                                <TextBlock Text="{Binding ShapeText}" FontSize="11" Foreground="{StaticResource TextSub}"/>
+                                                <TextBlock Text="{Binding LeaderText}" FontSize="11" Foreground="#C9A227" Margin="8,0,0,0"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Border x:Name="libDropLine" Height="2" Background="{StaticResource Accent}"
+                                VerticalAlignment="Top" HorizontalAlignment="Stretch" IsHitTestVisible="False"
+                                Visibility="Collapsed" Margin="0,0,0,0">
+                            <Border.RenderTransform>
+                                <TranslateTransform x:Name="libDropShift" Y="0"/>
+                            </Border.RenderTransform>
+                        </Border>
+                    </Grid>
+                </DockPanel>
+            </Border>
+
+            <!-- 中: 房间画布 -->
+            <Border Grid.Column="1" Background="{StaticResource BgDeep}">
+                <Grid>
+                    <!-- 画布也不出滚动条：滚轮缩放、中键拖动画布、F5 看全 -->
+                    <ScrollViewer x:Name="canvasScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                                  Background="#0F1216" Loaded="CanvasScroll_Loaded"
+                                  PreviewMouseWheel="CanvasScroll_PreviewMouseWheel">
+                        <Grid x:Name="canvasWrap" Margin="640">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform x:Name="zoomTransform" ScaleX="1" ScaleY="1"/>
+                            </Grid.LayoutTransform>
+                            <Canvas x:Name="roomCanvas" Background="#171A20" AllowDrop="True"
+                                    Drop="RoomCanvas_Drop" DragOver="RoomCanvas_DragOver"
+                                    MouseLeftButtonDown="RoomCanvas_MouseLeftButtonDown"/>
+                            <TextBlock x:Name="canvasHint" Text="{l:T Key='从左侧工位库拖出工位块放到这里 · 按住 Ctrl 拖动格子可互换内容 · 滚轮缩放 · 中键拖动平移 · F5 看全'}"
+                                       Foreground="#5A6572" FontSize="14" IsHitTestVisible="False"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 底部：机器统计（可开关） -->
+        <Border x:Name="statsPanel" Grid.Row="2" Background="{StaticResource BgPanel}"
+                BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="12,7">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
+                    <TextBlock Text="{l:T Key='机器统计'}" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="statsSummary" Text="" FontSize="10.5" Foreground="{StaticResource TextSub}"
+                               VerticalAlignment="Center" Margin="10,2,0,0"/>
+                </StackPanel>
+                <!-- 横向不出滚动条：滚轮在统计条上滚就是左右移动（HScroll_Wheel） -->
+                <ScrollViewer x:Name="statsScroll" HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Disabled"
+                              PreviewMouseWheel="HScroll_Wheel">
+                    <StackPanel x:Name="statsHost" Orientation="Horizontal"/>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <!-- 状态栏 -->
+        <Border Grid.Row="3" Background="{StaticResource BgPanel}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="12,6">
+            <DockPanel>
+                <TextBlock x:Name="savePathText" Text="" Foreground="#5A6572" FontSize="11"
+                           DockPanel.Dock="Right" HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" MaxWidth="620"/>
+                <TextBlock x:Name="statusText" Text="{l:T Key='就绪'}" Foreground="{StaticResource TextSub}" FontSize="12" DockPanel.Dock="Left"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="四格工位中一格坐着人">
+  <title>座位网格</title>
+  <defs>
+    <linearGradient id="a1bg" x1="0" y1="0" x2=".55" y2="1">
+      <stop offset="0" stop-color="#3C4876"/>
+      <stop offset="1" stop-color="#151A2B"/>
+    </linearGradient>
+    <linearGradient id="a1pk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF86A5"/>
+      <stop offset="1" stop-color="#FF3D74"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="122" height="122" rx="28" fill="url(#a1bg)"/>
+  <rect x="3.75" y="3.75" width="120.5" height="120.5" rx="27.25" fill="none" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/>
+  <rect x="23" y="23" width="37" height="37" rx="11" fill="#FFFFFF" opacity=".13"/>
+  <rect x="68" y="23" width="37" height="37" rx="11" fill="#FFFFFF" opacity=".13"/>
+  <rect x="23" y="68" width="37" height="37" rx="11" fill="#FFFFFF" opacity=".13"/>
+  <rect x="68" y="68" width="37" height="37" rx="11" fill="#FFFFFF" opacity=".13"/>
+  <rect x="23" y="23" width="37" height="37" rx="11" fill="url(#a1pk)"/>
+  <circle cx="41.5" cy="37" r="7" fill="#FFFFFF"/>
+  <path d="M29 55c0-7.2 5.6-11.5 12.5-11.5S54 47.8 54 55z" fill="#FFFFFF"/>
+</svg>

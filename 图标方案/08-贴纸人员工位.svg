@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="贴纸风人员工位图标">
+  <title>贴纸人员工位</title>
+  <g stroke="#2C3E50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="5" y="5" width="118" height="118" rx="28" fill="#E1F5EE"/>
+    <circle cx="52" cy="46" r="16" fill="#F0997B"/>
+    <path d="M30 92 q0 -24 22 -24 q22 0 22 24" fill="#5EC8F0"/>
+    <rect x="80" y="40" width="34" height="26" rx="4" fill="#FBFDFF"/>
+    <rect x="85" y="45" width="24" height="15" rx="2" fill="#85B7EB" stroke-width="2"/>
+    <path d="M97 66 V74 M90 74 H104" />
+    <path d="M78 92 H118" stroke-width="4"/>
+    <circle cx="34" cy="100" r="7" fill="#FAC775"/>
+    <path d="M50 100 H72" stroke-width="3" stroke="#7C93A8"/>
+  </g>
+</svg>

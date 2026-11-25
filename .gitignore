@@ -1,0 +1,33 @@
+# 编译产物
+bin/
+obj/
+_t/
+
+# 调试截图 / 测试脚本 / 临时日志
+*.png
+!截图/*.png
+_pid.txt
+verify_bg.txt
+verify_console.txt
+*.pyc
+__pycache__/
+
+# 测试用脚本（保留 build.py）
+final_verify.py
+shot.py
+shot_window.py
+smoke.py
+vclick.py
+vdrag.py
+verify.py
+verify2.py
+vfinal.py
+vinteract.py
+vmenu.py
+vprobe.py
+vstep.py
+vt.py
+
+# 交付目录是「编译产物 + 真实数据」混合区，整目录不入库
+# （工位存档、人员表里是真人姓名 / 内网 IP / MAC，绝不能进版本库）
+交付/

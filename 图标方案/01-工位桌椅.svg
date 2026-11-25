@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="卡通工位桌椅图标">
+  <title>工位桌椅</title>
+  <rect x="4" y="4" width="120" height="120" rx="26" fill="#EAF3FB"/>
+  <rect x="20" y="86" width="88" height="9" rx="4.5" fill="#9AB3C9"/>
+  <rect x="27" y="95" width="7" height="20" rx="3" fill="#7C93A8"/>
+  <rect x="94" y="95" width="7" height="20" rx="3" fill="#7C93A8"/>
+  <rect x="40" y="34" width="48" height="33" rx="5" fill="#2F3E4C"/>
+  <rect x="44" y="38" width="40" height="24" rx="2" fill="#5EC8F0"/>
+  <circle cx="64" cy="50" r="6" fill="#EAF3FB"/>
+  <path d="M61 50 l2.5 2.5 L68 47" stroke="#2F8FBF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="61" y="67" width="6" height="10" fill="#2F3E4C"/>
+  <rect x="53" y="76" width="22" height="4" rx="2" fill="#2F3E4C"/>
+  <rect x="46" y="80" width="36" height="5" rx="2.5" fill="#C7D8E6"/>
+  <g>
+    <path d="M50 104 q0 -14 14 -14 q14 0 14 14" fill="#F0997B"/>
+    <rect x="47" y="104" width="34" height="7" rx="3.5" fill="#D85A30"/>
+    <rect x="52" y="111" width="5" height="12" rx="2.5" fill="#993C1D"/>
+    <rect x="71" y="111" width="5" height="12" rx="2.5" fill="#993C1D"/>
+  </g>
+</svg>

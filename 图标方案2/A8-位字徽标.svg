@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="粉色徽标上的中文字位">
+  <title>位字徽标</title>
+  <defs>
+    <linearGradient id="a8bg" x1="0" y1="0" x2=".55" y2="1">
+      <stop offset="0" stop-color="#3C4876"/>
+      <stop offset="1" stop-color="#151A2B"/>
+    </linearGradient>
+    <linearGradient id="a8pk" x1="0" y1="0" x2=".4" y2="1">
+      <stop offset="0" stop-color="#FF7A9C"/>
+      <stop offset="1" stop-color="#F22E68"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="122" height="122" rx="28" fill="url(#a8bg)"/>
+  <rect x="3.75" y="3.75" width="120.5" height="120.5" rx="27.25" fill="none" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/>
+  <rect x="16" y="16" width="96" height="96" rx="24" fill="url(#a8pk)"/>
+  <text x="64" y="94" text-anchor="middle" font-family="Microsoft YaHei UI, Microsoft YaHei, PingFang SC, sans-serif" font-size="78" font-weight="700" fill="#FFFFFF">位</text>
+</svg>
